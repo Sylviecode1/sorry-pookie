@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Hearts - I'm Sorry!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #282c34;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ff6b81;
+            font-size: 3em;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #1b1e2a;
+        }
+
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff6b81;
+            border-radius: 50%;
+            animation: float 3s ease infinite;
+            cursor: pointer;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-100px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #apology-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        #apology-message h2 {
+            font-size: 2.5em;
+            color: #ff6b81;
+        }
+
+        #apology-message p {
+            font-size: 1.3em;
+        }
+
+        #play-again {
+            padding: 15px 30px;
+            background-color: #ff4757;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #play-again:hover {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="apology-message" class="hidden">
+        <h2>You Caught All the Hearts!</h2>
+        <p>Hey love, I'm really sorry. I never meant to hurt you. Can we please talk and work this out? You're my favorite player in this game called life. ♥</p>
+        <button id="play-again">Catch More Hearts?</button>
+    </div>
+</div>
+
+<script>
+    const gameContainer = document.getElementById('game-container');
+    const apologyMessage = document.getElementById('apology-message');
+    const playAgainBtn = document.getElementById('play-again');
+    let heartsCaught = 0;
+    const totalHearts = 5;
+
+    // Create hearts dynamically
+    for (let i = 0; i < totalHearts; i++) {
+        createHeart();
+    }
+
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+        heart.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+        gameContainer.appendChild(heart);
+
+        heart.addEventListener('click', () => {
+            heart.remove();
+            heartsCaught++;
+            if (heartsCaught === totalHearts) {
+                setTimeout(showApologyMessage, 300);
+            }
+        });
+    }
+
+    function showApologyMessage() {
+        apologyMessage.classList.remove('hidden');
+    }
+
+    playAgainBtn.addEventListener('click', () => {
+        apologyMessage.classList.add('hidden');
+        heartsCaught = 0;
+        for (let i = 0; i < totalHearts; i++) {
+            createHeart();
+        }
+    });
+</script>
+
+</body>
+</html>
